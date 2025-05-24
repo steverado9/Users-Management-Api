@@ -1,0 +1,12 @@
+-create package.json file
+run: npm init --y
+
+-run:
+    npm install typescript ts-node @types/node nodemon @types/cors @types/express --save-dev
+    npm install sequelize sequelize-typescript pg dotenv cors express
+
+-Next, we generate a tsconfig.json file with command:
+./node_modules/.bin/tsc --init
+
+1)Set up your server
+2)Set up your dataBase

@@ -1,0 +1,32 @@
+{
+  "name": "users-management-api",
+  "version": "1.0.0",
+  "description": "User Management API",
+  "main": "build/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+     "build": "tsc",
+    "dev": "nodemon ./build/server.js",
+    "start": "tsc && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.21",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "pg": "^8.16.0",
+    "sequelize": "^6.37.7",
+    "sequelize-typescript": "^2.1.6"
+  }
+}
