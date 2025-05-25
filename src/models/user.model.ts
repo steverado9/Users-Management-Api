@@ -1,26 +1,58 @@
 import { Model,Table, Column, DataType } from "sequelize-typescript";
 
 @Table({
-    tableName: "users",
+    tableName: "user",
 })
-export default class Users extends Model {
+export default class User extends Model {
     @Column({
         type: DataType.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         field: "id"
     })
-    id?: number
+    id!: number
 
     @Column({
         type: DataType.STRING(255),
-        field: "username"
+        field: "name"
     })
-    usename?: string
+    name?: string
 
     @Column({
         type: DataType.STRING(255),
-        field: "password"
+        field: "username",
+        allowNull: false
     })
-    password?: string;
+    username!: string
+
+    @Column({
+        type: DataType.STRING(255),
+        field: "email",
+        allowNull: false
+    })
+    email!: string;
+
+    @Column({
+        type: DataType.JSON,
+        field: "address"
+    })
+    address?: Record<string, any> //this is a way of writing object in typescript
+
+    @Column({
+        type: DataType.STRING(255),
+        field: "phone"
+    })
+    phone?: string;
+
+    @Column({
+        type: DataType.STRING(255),
+        field: "website"
+    })
+    website?: string;
+
+    @Column({
+        type: DataType.JSON,
+        field: "company"
+    })
+    company?: Record<string, any>;
 }
