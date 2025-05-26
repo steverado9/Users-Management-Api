@@ -37,8 +37,8 @@ class UserRepository implements IUserRepository {
 
             if (searchParams?.username)
                 condition.username = { [Op.like]: `%${searchParams.username}%` };
-                console.log("condition.username", condition.username);
-                
+            console.log("condition.username", condition.username);
+
 
             return await User.findAll({ where: condition });
         } catch (error) {
@@ -57,17 +57,14 @@ class UserRepository implements IUserRepository {
     async update(user: User): Promise<number> {
         const { id, name, username, email, address, phone, website, company } = user;
 
-        if (!user.id) throw new Error("User ID is required for update.");
-
         try {
             const affectedRows = await User.update(
                 { name, username, email, address, phone, website, company },
                 { where: { id: id } }
             );
-
             return affectedRows[0];
         } catch (error) {
-            throw new Error("Failed to update User!");
+            throw new Error(`Failed to update User! with the id ${id}`);
         }
     }
 
