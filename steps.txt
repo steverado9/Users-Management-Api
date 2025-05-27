@@ -12,3 +12,5 @@ run: npm init --y
 2)Set up your dataBase
 3)set up cors 
 4)set up routes
+5)connect everything in the server.js
+6)Add jwt(json-web-token)

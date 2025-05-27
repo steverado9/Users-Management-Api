@@ -1,0 +1,7 @@
+Using jwt(jason web token)
+There are three important parts of a JWT: Header, Payload, Signature. 
+Together they are combined to a standard structure: header.payload.signature.
+The Client typically attaches JWT in Authorization header with Bearer prefix
+1)Authorization: Bearer [header].[payload].[signature]
+2)x-access-token: [header].[payload].[signature]
+installation: npm i jsonwebtoken

@@ -1,23 +1,20 @@
 import { Request, Response } from "express";
 import User from "../models/user.model";
 import userRepository from "../repositories/user.repository";
+import handleResponse from "../response/handleResponse";
 
 export default class UserController {
     async create(req: Request, res: Response) {
+        const user: User = req.body;
+        const { username, email } = user;
+        if (!username || !email) {
+            return handleResponse(res, 404, "username and email are required");
+        }
         try {
-            // give the repo our data
-            console.log("req.body", req.body);
-            const user: User = req.body;
             await userRepository.save(user);
-
-            res.status(201).json({
-                message: "create OK",
-                reqBody: req.body
-            });
+            handleResponse(res, 201, "user created successfully", user);
         } catch (err) {
-            res.status(500).json({
-                message: "Internal Server Error"
-            });
+            handleResponse(res, 500, "Internal Server Error");
         }
     }
 
@@ -26,34 +23,22 @@ export default class UserController {
         try {
             //get the data from the database and diplay it in the reqBody
             const users = await userRepository.retrieveAll({ username });
-            console.log("users", users);
-
-            res.status(200).json({
-                message: "findAll Ok",
-                reqBody: users
-            });
+            handleResponse(res, 200, "users fetched sucessfully", users);
         } catch (err) {
-            res.status(500).json({
-                message: "Internal Server Error!"
-            });
+            handleResponse(res, 500, "Internal Server Error!");
         }
     }
 
     async findOne(req: Request, res: Response) {
         const id = parseInt(req.params.id);
-        console.log("id", id);
         try {
             const user = await userRepository.retrieveById(id);
-            console.log("user", user);
-
-            res.status(200).json({
-                message: "findOne Ok",
-                reqBody: user
-            });
+            if (!user) {
+                return handleResponse(res, 404, `Failed to retrieve user! with id: ${id}`);
+            }
+            handleResponse(res, 200, `user with id: ${id} fetched successfully`, user);
         } catch (err) {
-            res.status(500).json({
-                message: "Internal server Error!"
-            })
+            handleResponse(res, 500, "Internal server Error!");
         }
     }
 
@@ -63,18 +48,13 @@ export default class UserController {
         try {
             const updateUser = await userRepository.update(user);
             if (updateUser === 1) {
-                res.status(200).json({
-                    message: "update Ok",
-                });
-
+                return handleResponse(res, 200, `updated user with ${user.id} successfully`);
             } else {
-                throw new Error(`Cannot update Tutorial with id=${user.id}`);
+                throw new Error(`Cannot update user with id=${user.id}`);
             }
 
         } catch (err) {
-            res.status(500).json({
-                message: "Internal server Error!"
-            });
+            handleResponse(res, 500, "Internal server Error!");
         }
     }
 
@@ -83,19 +63,21 @@ export default class UserController {
         try {
             const num = await userRepository.delete(id);
             if (num === 1) {
-                res.status(200).json({
-                    message: "delete OK",
-                    reqParamId: req.params.id
-                });
-
+                return handleResponse(res, 200, `deleted user with id ${id}`);
             } else {
-                throw new Error(`Cannot delete Tutorial with id=${id}`);
+                throw new Error(`Cannot delete User with id=${id}`);
             }
         } catch (err) {
-            res.status(500).json({
-                message: "Internal Server Error!"
-            });
+            handleResponse(res, 500, "Internal Server Error!");
         }
     }
 
+    async deleteAll(req: Request, res: Response) {
+        try {
+            const num = await userRepository.deleteAll();
+            handleResponse(res, 200, `${num} Users were deleted successfully!`);
+        } catch (err) {
+            handleResponse(res, 500, "Some error occurred while removing all Users.");
+        }
+    }
 }

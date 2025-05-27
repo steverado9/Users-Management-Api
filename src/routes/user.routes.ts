@@ -1,6 +1,6 @@
 import { Router } from "express";
 import UserController from "../controllers/user.controller";
-
+import checkDuplicateUsernameOrEmail  from "../middleware/verifyUsernameAndEmail";
 class UserRoutes {
     router = Router();
     controller = new UserController();
@@ -11,7 +11,7 @@ class UserRoutes {
 
     intializeRoutes() {
         // //create a new Tutorial
-        this.router.post("/", this.controller.create);
+        this.router.post("/", checkDuplicateUsernameOrEmail, this.controller.create);
 
         // //Retrieve all Tutorials
         this.router.get("/", this.controller.findAll);

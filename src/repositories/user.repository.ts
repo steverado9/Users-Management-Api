@@ -50,7 +50,7 @@ class UserRepository implements IUserRepository {
         try {
             return await User.findByPk(userId);
         } catch (error) {
-            throw new Error(`Failed to retrieve user! with id: ${userId}`)
+            throw new Error(`Failed to retrieve user! with id: ${userId}`);
         }
     }
 
