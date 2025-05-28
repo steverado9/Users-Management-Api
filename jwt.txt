@@ -5,3 +5,29 @@ The Client typically attaches JWT in Authorization header with Bearer prefix
 1)Authorization: Bearer [header].[payload].[signature]
 2)x-access-token: [header].[payload].[signature]
 installation: npm i jsonwebtoken
+
+A JWT has 3 parts:
+Header (type + algorithm)
+
+Payload (user info, e.g., user ID)
+
+Signature (used to verify integrity)
+    Use Cases:
+User login/authentication
+
+API security (restrict access to routes)
+
+Stateless sessions
+
+ Swagger (OpenAPI)
+Swagger is a toolset for designing, building, documenting, and consuming RESTful APIs.
+Auto-generates API documentation from code or YAML/JSON definitions.
+Provides a web UI to explore and test your API endpoints.
+Helps both developers and clients understand how to interact with the API.
+
+    Use Cases:
+Generate interactive API docs (e.g., https://api.example.com/docs)
+
+API testing without Postman
+
+Collaborating across backend/frontend teams
