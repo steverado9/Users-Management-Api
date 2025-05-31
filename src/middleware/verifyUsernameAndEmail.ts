@@ -1,6 +1,8 @@
-import User from "../models/user.model";
 import { Request, Response, NextFunction } from "express";
 import handleResponse from "../response/handleResponse";
+import User from "../models/user.model";
+import Role from "../models/role.model";
+
 
 const checkDuplicateUsernameOrEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -26,4 +28,26 @@ const checkDuplicateUsernameOrEmail = async (req: Request, res: Response, next: 
 
 }
 
-export default checkDuplicateUsernameOrEmail;
+const checkRoleExisted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const roles = req.body.roles;
+        const role: Role[] = [];
+        if (req.body.roles) {
+            for (const element of roles) {
+                if (role.includes(element)) {
+                    handleResponse(res, 500, "Failed! Role does not exist = " + element);
+                    return;
+                }
+            }
+        }
+        next();
+    } catch (err) {
+        handleResponse(res, 500, "Internal server error.");
+        return;
+    }
+}
+
+export const verifySignUp =  { 
+    checkDuplicateUsernameOrEmail,
+    checkRoleExisted
+    };

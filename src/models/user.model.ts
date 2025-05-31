@@ -1,7 +1,9 @@
-import { Model,Table, Column, DataType } from "sequelize-typescript";
+import { Model, Table, Column, DataType, BelongsToMany } from "sequelize-typescript";
+import Role from "./role.model";
+import UserRole from "./userRole.model";
 
 @Table({
-    tableName: "user",
+    tableName: "users",
 })
 export default class User extends Model {
     @Column({
@@ -33,6 +35,13 @@ export default class User extends Model {
     email!: string;
 
     @Column({
+        type: DataType.STRING(255),
+        field: "password",
+        allowNull: false
+    })
+    password!: string;
+
+    @Column({
         type: DataType.JSON,
         field: "address"
     })
@@ -55,4 +64,8 @@ export default class User extends Model {
         field: "company"
     })
     company?: Record<string, any>;
+
+    @BelongsToMany(() => Role, () => UserRole)
+    roles!: Role[];
 }
+
