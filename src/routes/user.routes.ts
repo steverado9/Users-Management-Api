@@ -1,29 +1,36 @@
 import { Router } from "express";
 import UserController from "../controllers/user.controller";
-import checkDuplicateUsernameOrEmail  from "../middleware/verifyUsernameAndEmail";
+import { verifySignUp } from "../middleware/verifyUsernameAndEmail";
+import { controller } from "../controllers/auth.controller";
+
 class UserRoutes {
     router = Router();
-    controller = new UserController();
+    usercontroller = new UserController();
+    controller = controller;
 
     constructor() {
         this.intializeRoutes();
     }
 
     intializeRoutes() {
-        // //create a new Tutorial
-        this.router.post("/", checkDuplicateUsernameOrEmail, this.controller.create);
+        this.router.post("/signup", [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRoleExisted], this.controller.signup);
+        
+        this.router.post("/signin", this.controller.signin);
 
-        // //Retrieve all Tutorials
-        this.router.get("/", this.controller.findAll);
+        // //create a new user
+        this.router.post("/", verifySignUp.checkDuplicateUsernameOrEmail, this.usercontroller.create);
 
-        // //Retrieve a single Tutorial with id
-        this.router.get("/:id", this.controller.findOne);
+        // //Retrieve all users
+        this.router.get("/", this.usercontroller.findAll);
 
-        // //update a Tutorial with id
-        this.router.put("/:id", this.controller.update);
+        // //Retrieve a single user with id
+        this.router.get("/:id", this.usercontroller.findOne);
 
-        // //Delete a Tutorial with id
-        this.router.delete("/:id", this.controller.delete);
+        // //update a user with id
+        this.router.put("/:id", this.usercontroller.update);
+
+        // //Delete a user with id
+        this.router.delete("/:id", this.usercontroller.delete);
     }
 }
 
