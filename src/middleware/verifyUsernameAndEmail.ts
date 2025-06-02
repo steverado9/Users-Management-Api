@@ -29,25 +29,28 @@ const checkDuplicateUsernameOrEmail = async (req: Request, res: Response, next: 
 }
 
 const checkRoleExisted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-        const roles = req.body.roles;
-        const role: Role[] = [];
-        if (req.body.roles) {
-            for (const element of roles) {
-                if (role.includes(element)) {
-                    handleResponse(res, 500, "Failed! Role does not exist = " + element);
-                    return;
-                }
-            }
+  try {
+    const VALID_ROLES = Role.VALID_ROLES;
+    const roles = req.body.roles;
+    if (roles) {
+      for (const role of roles) {
+        //If the current role is not in the list of valid roles.
+        if (!VALID_ROLES.includes(role)) {
+          handleResponse(res, 400, `Failed! Role does not exist = ${role}`);
+          return;
         }
-        next();
-    } catch (err) {
-        handleResponse(res, 500, "Internal server error.");
-        return;
+      }
     }
-}
+    next();
+  } catch (err) {
+    handleResponse(res, 500, "Internal server error.");
+  }
+};
 
-export const verifySignUp =  { 
+
+const verifySignUp =  { 
     checkDuplicateUsernameOrEmail,
     checkRoleExisted
-    };
+};
+
+export default verifySignUp;

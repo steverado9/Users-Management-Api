@@ -7,6 +7,8 @@ import UserRole from "./userRole.model";
 })
 
 export default class Role extends Model {
+    public static readonly VALID_ROLES = ["user", "admin", "moderator"];
+
     @Column({
         type: DataType.INTEGER,
         primaryKey: true,
@@ -17,9 +19,10 @@ export default class Role extends Model {
 
     @Column({
         type: DataType.STRING(255),
-        field: "name"
+        field: "name",
+        allowNull: false
     })
-    name?: string
+    name!: string
 
     @BelongsToMany(() => User, () => UserRole)
     users!: User[];

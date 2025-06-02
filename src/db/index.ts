@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize-typescript";
-import { config, dialect} from "../config/db.config";
+import { config, dialect } from "../config/db.config";
 import User from "../models/user.model";
 import Role from "../models/role.model";
 import UserRole from "../models/userRole.model";
@@ -28,11 +28,31 @@ class Database {
         });
         try {
             await this.sequelize.authenticate();
-            await this.sequelize.sync({force:true});
+            // Drops all tables and re-creates them on every server start.
+            await this.sequelize.sync({ force: true });
             console.log("connection has been established successfully.")
+            // Call seedRoles after syncing
+            await this.seedRoles();
         } catch (err) {
-            console.error("Unable to connect to the Database:", err)
+            console.error("Unable to connect to the Database:", (err as Error).message)
         }
+    }
+    //The database needs to have those role records available
+    private async seedRoles() {
+        if (!this.sequelize) return;
+
+        const RoleModel = this.sequelize.models.Role as typeof Role;
+
+        const roles = ["user", "moderator", "admin"];
+
+        for (let i = 0; i < roles.length; i++) {
+            await RoleModel.findOrCreate({
+                where: { name: roles[i] },
+                defaults: { id: i + 1, name: roles[i] },
+            });
+        }
+
+        console.log("✅ Roles table seeded.");
     }
 }
 
