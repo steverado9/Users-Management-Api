@@ -1,36 +1,30 @@
 import { Router } from "express";
 import UserController from "../controllers/user.controller";
-import { verifySignUp } from "../middleware/verifyUsernameAndEmail";
-import { controller } from "../controllers/auth.controller";
+import verifySignUp  from "../middleware/verifyUsernameAndEmail";
 
 class UserRoutes {
     router = Router();
     usercontroller = new UserController();
-    controller = controller;
 
     constructor() {
         this.intializeRoutes();
     }
 
     intializeRoutes() {
-        this.router.post("/signup", [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRoleExisted], this.controller.signup);
+        //create a new user
+        this.router.post("/signup", [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRoleExisted], this.usercontroller.signup);
         
-        this.router.post("/signin", this.controller.signin);
-
-        // //create a new user
-        this.router.post("/", verifySignUp.checkDuplicateUsernameOrEmail, this.usercontroller.create);
-
-        // //Retrieve all users
+         // //Retrieve all users
         this.router.get("/", this.usercontroller.findAll);
 
-        // //Retrieve a single user with id
-        this.router.get("/:id", this.usercontroller.findOne);
+        //signin a single user 
+        this.router.post("/signin", this.usercontroller.signin);
 
         // //update a user with id
         this.router.put("/:id", this.usercontroller.update);
 
         // //Delete a user with id
-        this.router.delete("/:id", this.usercontroller.delete);
+        this.router.delete("/:id", this.usercontroller.deleteUser);
     }
 }
 
