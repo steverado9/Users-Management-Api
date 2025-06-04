@@ -28,7 +28,7 @@ const checkDuplicateUsernameOrEmail = async (req: Request, res: Response, next: 
 
 }
 
-const checkRoleExisted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const checkValidRole = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const VALID_ROLES = Role.VALID_ROLES;
     const roles = req.body.roles;
@@ -50,7 +50,7 @@ const checkRoleExisted = async (req: Request, res: Response, next: NextFunction)
 
 const verifySignUp =  { 
     checkDuplicateUsernameOrEmail,
-    checkRoleExisted
+    checkValidRole
 };
 
 export default verifySignUp;

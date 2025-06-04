@@ -6,6 +6,7 @@ import config from "../config/auth.config";
 import { Op } from "sequelize";
 import Jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { z } from "zod";
 
 export default class UserController {
     //create a user

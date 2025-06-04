@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize-typescript";
+import { Dialect } from "sequelize";
 import { config, dialect } from "../config/db.config";
 import User from "../models/user.model";
 import Role from "../models/role.model";
@@ -17,7 +18,7 @@ class Database {
             username: config.USER,
             password: config.PASSWORD,
             host: config.HOST,
-            dialect: dialect,
+            dialect: dialect as Dialect,
             pool: {
                 max: config.pool.max,
                 min: config.pool.min,
@@ -52,7 +53,7 @@ class Database {
             });
         }
 
-        console.log("✅ Roles table seeded.");
+        console.log("Roles table seeded.");
     }
 }
 

@@ -15,14 +15,13 @@ const routes: Routes = new Routes(app);
 const database: Database = new Database();
 
 const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
-console.log();
 
 
 app.listen(PORT, "localhost", () => {
     console.log(`Server is listening to port ${PORT}.`);
 }).on("error", (err: any) => {
     if (err.code === "EADDRINUSE") {
-        console.log("Error: address alredy in use");
+        console.log("Error: address already in use");
     } else {
         console.log(err);
     };
