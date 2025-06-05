@@ -13,6 +13,7 @@ export const signupSchema = z.object({
     .array(z.enum(["user", "admin", "moderator"]))
     .optional(), // roles must be one of those 3 if provided
 });
+console.log(signupSchema.safeParse({ password: "" }));
 
 export const signinSchema = z.object({
   username: z.string().min(1, "Username is required"),

@@ -3,10 +3,14 @@ import dotenv from "dotenv";
 import Database from "./src/db/index";
 import Server from "./src/index";
 import Routes from "./src/routes";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./src/docs/swagger.config"; // path to swagger config
 
 dotenv.config();
 
 const app: Application = express();
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const server: Server = new Server(app);
 

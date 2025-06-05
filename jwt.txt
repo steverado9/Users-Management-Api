@@ -19,6 +19,12 @@ API security (restrict access to routes)
 
 Stateless sessions
 
+zod
+npm install zod   
+1)first of all define the schema
+2)parse the data
+3)handdle error
+
  Swagger (OpenAPI)
 Swagger is a toolset for designing, building, documenting, and consuming RESTful APIs.
 Auto-generates API documentation from code or YAML/JSON definitions.

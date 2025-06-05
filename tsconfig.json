@@ -112,5 +112,5 @@
   },
   "include": [
     "src/**/*"
-  ]
+, "swagger.ts"  ]
 }

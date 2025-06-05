@@ -6,7 +6,6 @@ import config from "../config/auth.config";
 import { Op } from "sequelize";
 import Jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { z } from "zod";
 
 export default class UserController {
     //create a user
@@ -16,7 +15,8 @@ export default class UserController {
         } = req.body;
         // Basic validation
         if (!username || !email || !password) {
-            return handleResponse(res, 400, "Username, email, and password are required");
+            handleResponse(res, 400, "Username, email, and password are required");
+            return;
         }
         try {
             // Create the user with hashed password
@@ -41,7 +41,7 @@ export default class UserController {
                 await user.$set("roles", [1]); // Default to role ID 1
             }
 
-            handleResponse(res, 201, "User registered successfully", user);
+            handleResponse(res, 201, "User registered successfully");
         } catch (err) {
             console.error("Signup error:", err);
             handleResponse(res, 500, "Internal Server Error");
